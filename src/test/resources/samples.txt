@@ -1,0 +1,19 @@
+null
+1500
+"world"
+[]
+[1]
+["hello"]
+["a",1,{"json":"yes"}]
+{}
+{"":""}
+{"":null}
+{"age":50}
+{"name":"jack"}
+{"empty":null}
+{"password":"dH_S7_J4{#zU'DET"}
+{"hash":"6®ìÕ»^¼¥õÑÇYX`6d"}
+{"content":"a\nb\nc","date":null,"ages":[35,45,55,65]}
+{"other":"{}","numbers":["a",100]}
+{"widget":{"debug":"on","window":{"width":720,"height":480}}}
+{"event":"sun1.opacity = (sun1.opacity / 100) * 90;"}
