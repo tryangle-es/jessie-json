@@ -10,7 +10,7 @@ This library offers a Java implementation of JSON (RFC 8259) with a focus on mem
 
 ### Features
 
-- 🚀 **Easy Startup** ➔ you can easily integrate the library and parsing JSON right now.
+- 🚀 **Easy Startup** ➔ you can easily integrate the library and start parsing JSON immediately.
 - 📚 **Small Library** ➔ you don't have to depend upon a <u>bloated library</u> (with transitive dependencies).
 - 🔒 **Memory Safety** ➔ you can explicitly clear the buffer after usage (your sensitive data is protected).
 
@@ -38,15 +38,16 @@ This library offers a Java implementation of JSON (RFC 8259) with a focus on mem
 5. Parse some JSON.
 
 ```java
-// Parse the JSON
-char[] raw = "{\"location\":{\"country\":\"US\"}}".toCharArray();
+// 1. Parse the chars to a JSON entity
+char[] raw = "{\"token\":{\"password\":\"123456\"}}".toCharArray();
 JSONEntity json = JSONParser.parseJson(raw);
 
-// Get the data
-String country = json.resolveObjectValue("location.country", String.class);
-System.out.println(country);
+// 2. Easily get the desired field
+char[] password = json.resolveObjectValue("token.password", char[].class);
+System.out.println(String.valueOf(password));
+Arrays.fill(password, (char) -1);
 
-// Clear the memory
+// 3. Clear the chars and JSON entity content
 Arrays.fill(raw, (char) -1);
 json.clear();
 ```
