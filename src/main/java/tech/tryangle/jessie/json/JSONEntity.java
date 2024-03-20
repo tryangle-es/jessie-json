@@ -103,7 +103,7 @@ public class JSONEntity {
 
     public <T> T getValue(Class<T> type) {
         if (type == null) throw new NullPointerException("type must not be null");
-        return value instanceof char[] chars ? parseObject(type, chars) : type.cast(value);
+        return parseObject(type, value);
     }
 
     public void setValue(Object value) {
@@ -128,10 +128,7 @@ public class JSONEntity {
         if (key == null) throw new NullPointerException("key must not be null");
         if (type == null) throw new NullPointerException("type must not be null");
         if (map == null) return null;
-        Object value = map.get(key);
-        if (value instanceof char[] chars) return parseObject(type, chars);
-        if (value instanceof Integer casted && type == Long.class) return type.cast(Long.valueOf(casted));
-        return type.cast(map.get(key));
+        return parseObject(type, map.get(key));
     }
 
     public <T> T resolveObjectValueOrDefault(String pattern, Class<T> type, T fallback) {
@@ -218,6 +215,12 @@ public class JSONEntity {
 
     // Casting
 
+    private <T> T parseObject(Class<T> type, Object value) {
+        if (value instanceof char[] chars) return parseObject(type, chars);
+        if (value instanceof Integer casted && type == Long.class) return type.cast(Long.valueOf(casted));
+        return type.cast(value);
+    }
+
     private <T> T parseObject(Class<T> type, char[] value) {
         if (type == String.class) {
             String result = String.valueOf(value);
@@ -246,7 +249,7 @@ public class JSONEntity {
 
     @Override
     public String toString() {
-        return String.valueOf(toCharArray());
+        return "Secure:XYZ";
     }
 
     public void clear() {
