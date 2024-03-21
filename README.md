@@ -18,14 +18,10 @@ This library offers a Java implementation of JSON (RFC 8259) with a focus on mem
 
 - Add more testing and reach 100% code coverage (with JaCoCo).
 - Improve the quality of the documentation.
-- Publish the library to maven central.
 
 ## Getting started
 
-1. Make sure you have **Maven** and **Java** installed.
-2. Compile the library with ```mvn clean install```.
-3. Publish the JAR to your artifact repository.
-4. Add the dependency to your project ```pom.xml```.
+1. Add the dependency to your project ```pom.xml```.
 
 ```xml
 <dependency>
@@ -35,7 +31,7 @@ This library offers a Java implementation of JSON (RFC 8259) with a focus on mem
 </dependency>
 ```
 
-5. Parse some JSON.
+2. Parse some JSON.
 
 ```java
 // 1. Parse the chars to a JSON entity
