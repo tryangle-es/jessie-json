@@ -48,6 +48,8 @@ Arrays.fill(raw, (char) -1);
 json.clear();
 ```
 
+3. To learn how to parse all kinds of structures [check the documentation](https://github.com/tryangle-es/jessie-json/wiki/Docs).
+
 ## Sponsor
 
 **Made with ❤ by [tryangle.tech](https://tryangle.tech)** (Software Strategy and Consulting Company).
