@@ -179,27 +179,29 @@ public class JSONEntity {
         return type == LIST ? list : null;
     }
 
-    public List<String> getStringList() {
-        List<String> result = new ArrayList<>();
-        for (Object object : getList()) {
-            if (object instanceof char[] chars) {
-                result.add(String.valueOf(chars));
-            } else {
-                result.add(String.valueOf(object));
-            }
-        }
-        return result;
-    }
-
     public <T> List<T> getList(Class<T> type) {
         if (type == null) throw new NullPointerException("type must not be null");
         List<T> result = new ArrayList<>();
         for (Object object : getList()) {
-            if (type.isAssignableFrom(object.getClass())) {
-                result.add(type.cast(object));
+            if (type == JSONEntity.class) {
+                if (object == null) {
+                    result.add(type.cast(JSONEntity.newValue()));
+                } else if (object instanceof JSONEntity) {
+                    result.add(type.cast(object));
+                } else {
+                    JSONEntity json = JSONEntity.newValue();
+                    json.setValue(object);
+                    result.add(type.cast(json));
+                }
+            } else if (object == null) {
+                result.add(null);
+            } else if (type == String.class) {
+                result.add(type.cast(String.valueOf(object)));
             } else if (char[].class == object.getClass() && type.isAssignableFrom(String.class)) {
                 char[] chars = (char[]) object;
                 result.add(type.cast(String.valueOf(chars)));
+            } else if (type.isAssignableFrom(object.getClass())) {
+                result.add(type.cast(object));
             }
         }
         return result;
