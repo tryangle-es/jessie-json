@@ -196,7 +196,11 @@ public class JSONEntity {
             } else if (object == null) {
                 result.add(null);
             } else if (type == String.class) {
-                result.add(type.cast(String.valueOf(object)));
+                if (object instanceof char[] chars) {
+                    result.add(type.cast(String.valueOf(chars)));
+                } else {
+                    result.add(type.cast(String.valueOf(object)));
+                }
             } else if (char[].class == object.getClass() && type.isAssignableFrom(String.class)) {
                 char[] chars = (char[]) object;
                 result.add(type.cast(String.valueOf(chars)));

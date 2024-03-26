@@ -27,7 +27,7 @@ This library offers a Java implementation of JSON (RFC 8259) with a focus on mem
 <dependency>
     <groupId>tech.tryangle</groupId>
     <artifactId>jessie-json</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -48,7 +48,7 @@ Arrays.fill(raw, (char) -1);
 json.clear();
 ```
 
-3. To learn how to parse all kinds of structures [check the documentation](https://github.com/tryangle-es/jessie-json/wiki/Docs).
+3. To learn how to parse all kinds of structures 📚 [check the documentation](https://github.com/tryangle-es/jessie-json/wiki/Docs).
 
 ## Sponsor
 
