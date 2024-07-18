@@ -23,11 +23,21 @@ import java.util.Arrays;
 
 public class Chars {
 
+    private static final char[] INTEGER_MIN_VALUE = String.valueOf(Integer.MIN_VALUE).toCharArray();
+
+    private static final char[] INTEGER_MAX_VALUE = String.valueOf(Integer.MAX_VALUE).toCharArray();
+
+    private static final char[] LONG_MIN_VALUE = String.valueOf(Long.MIN_VALUE).toCharArray();
+
+    private static final char[] LONG_MAX_VALUE = String.valueOf(Long.MAX_VALUE).toCharArray();
+
     public static byte[] toBytes(char[] chars) {
         return toBytes(chars, StandardCharsets.UTF_8);
     }
 
     public static byte[] toBytes(char[] chars, Charset charset) {
+        if (chars == null) return null;
+        if (charset == null) charset = StandardCharsets.UTF_8;
         CharBuffer charBuffer = CharBuffer.wrap(chars);
         ByteBuffer byteBuffer = charset.encode(charBuffer);
         byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
@@ -40,6 +50,8 @@ public class Chars {
     }
 
     public static char[] toChars(byte[] bytes, Charset charset) {
+        if (bytes == null) return null;
+        if (charset == null) charset = StandardCharsets.UTF_8;
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         CharBuffer charBuffer = charset.decode(byteBuffer);
         char[] chars = Arrays.copyOfRange(charBuffer.array(), charBuffer.position(), charBuffer.limit());
@@ -103,16 +115,17 @@ public class Chars {
 
     public static boolean charsToBoolean(char[] chars, int start, int end) {
         int length = end - start;
-        if (length < 4 || length > 5) throw new RuntimeException();
-        if (chars[start] == 't' && chars[start + 1] == 'r' && chars[start + 2] == 'u' && chars[start + 3] == 'e') return true;
-        if (chars[start] == 'f' && chars[start + 1] == 'a' && chars[start + 2] == 'l' && chars[start + 3] == 's' && chars[start + 4] == 'e') return false;
+        if (length == 4 && chars[start] == 't' && chars[start + 1] == 'r' && chars[start + 2] == 'u' && chars[start + 3] == 'e') return true;
+        if (length == 5 && chars[start] == 'f' && chars[start + 1] == 'a' && chars[start + 2] == 'l' && chars[start + 3] == 's' && chars[start + 4] == 'e') return false;
         throw new RuntimeException();
     }
 
     public static char[] intToChars(int value) {
         if (value == 0) return new char[] { '0' };
+        if (value == Integer.MIN_VALUE) return INTEGER_MIN_VALUE.clone();
+        if (value == Integer.MAX_VALUE) return INTEGER_MAX_VALUE.clone();
         int sign = value < 0 ? -1 : 1;
-        if (sign == -1) value *= -1;
+        if (sign == -1) value = Math.abs(value);
         int length = (int) (Math.log10(value) + 1);
         if (sign == -1) length++;
         char[] chars = new char[length];
@@ -127,6 +140,8 @@ public class Chars {
 
     public static char[] longToChars(long value) {
         if (value == 0L) return new char[] { '0' };
+        if (value == Long.MIN_VALUE) return LONG_MIN_VALUE.clone();
+        if (value == Long.MAX_VALUE) return LONG_MAX_VALUE.clone();
         int sign = value < 0 ? -1 : 1;
         if (sign == -1) value *= -1;
         int length = (int) (Math.log10(value) + 1);

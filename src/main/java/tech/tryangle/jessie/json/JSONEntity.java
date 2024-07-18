@@ -112,19 +112,44 @@ public class JSONEntity {
 
     // JSON object methods
 
+    /** Use {@link JSONEntity#has(String)} instead */
+    @Deprecated(since = "1.0.3")
     public boolean hasObjectValue(String key) {
         if (key == null) throw new NullPointerException("key must not be null");
         if (map == null) return false;
         return map.containsKey(key);
     }
 
+    public boolean has(String key) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        if (map == null) return false;
+        return map.containsKey(key);
+    }
+
+    /** Use {@link JSONEntity#get(String)} instead */
+    @Deprecated(since = "1.0.3")
     public Object getObjectValue(String key) {
         if (key == null) throw new NullPointerException("key must not be null");
         if (map == null) return null;
         return map.get(key);
     }
 
+    public Object get(String key) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        if (map == null) return null;
+        return map.get(key);
+    }
+
+    /** Use {@link JSONEntity#get(String, Class)} instead */
+    @Deprecated(since = "1.0.3")
     public <T> T getObjectValue(String key, Class<T> type) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        if (type == null) throw new NullPointerException("type must not be null");
+        if (map == null) return null;
+        return parseObject(type, map.get(key));
+    }
+
+    public <T> T get(String key, Class<T> type) {
         if (key == null) throw new NullPointerException("key must not be null");
         if (type == null) throw new NullPointerException("type must not be null");
         if (map == null) return null;
@@ -158,13 +183,35 @@ public class JSONEntity {
         return result;
     }
 
+    /** Use {@link JSONEntity#add(String, Object)} instead */
+    @Deprecated(since = "1.0.3")
     public void addObjectPair(String key, Object value) {
         if (key == null) throw new NullPointerException("key must not be null");
         if (map.containsKey(key)) throw new JSONException("duplicate key");
         map.put(key, value);
     }
 
+    public void add(String key, Object value) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        if (map.containsKey(key)) throw new JSONException("duplicate key");
+        map.put(key, value);
+    }
+
+    public JSONEntity addPair(String key, Object value) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        if (map.containsKey(key)) throw new JSONException("duplicate key");
+        map.put(key, value);
+        return this;
+    }
+
+    /** Use {@link JSONEntity#set(String, Object)} instead */
+    @Deprecated(since = "1.0.3")
     public void setObjectPair(String key, Object value) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        map.put(key, value);
+    }
+
+    public void set(String key, Object value) {
         if (key == null) throw new NullPointerException("key must not be null");
         map.put(key, value);
     }
@@ -364,37 +411,37 @@ public class JSONEntity {
         if (object == null) {
             return Chars.nullToChars();
         }
-        if (object instanceof char[] value) {
-            char[] escaped = escapeChars(value);
+        if (object instanceof char[] casted) {
+            char[] escaped = escapeChars(casted);
             char[] quoted = quoteText(escaped);
             Arrays.fill(escaped, '\0');
             return quoted;
         }
-        if (object instanceof Integer value) {
-            return Chars.intToChars(value);
+        if (object instanceof Integer casted) {
+            return Chars.intToChars(casted);
         }
-        if (object instanceof Long value) {
-            return Chars.longToChars(value);
+        if (object instanceof Long casted) {
+            return Chars.longToChars(casted);
         }
-        if (object instanceof Boolean value) {
-            return Chars.booleanToChars(value);
+        if (object instanceof Boolean casted) {
+            return Chars.booleanToChars(casted);
         }
-        if (object instanceof Float value) {
-            return Chars.floatToChars(value);
+        if (object instanceof Float casted) {
+            return Chars.floatToChars(casted);
         }
-        if (object instanceof Double value) {
-            return Chars.doubleToChars(value);
+        if (object instanceof Double casted) {
+            return Chars.doubleToChars(casted);
         }
-        if (object instanceof String value) {
-            char[] chars = Chars.stringToChars(value);
+        if (object instanceof String casted) {
+            char[] chars = Chars.stringToChars(casted);
             char[] escaped = escapeChars(chars);
             Arrays.fill(chars, '\0');
             char[] quoted = quoteText(escaped);
             Arrays.fill(escaped, '\0');
             return quoted;
         }
-        if (object instanceof JSONEntity value) {
-            return value.toCharArray();
+        if (object instanceof JSONEntity casted) {
+            return casted.toCharArray();
         }
         return null;
     }
