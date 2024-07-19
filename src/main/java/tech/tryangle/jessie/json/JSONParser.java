@@ -49,7 +49,7 @@ public class JSONParser {
                             if (node.getBit() != 1) throw new JSONException("no colon in key/value pair");
                             node.setValue(builder.asCharArray());
                             JSONEntity last = stack.pop();
-                            last.addObjectPair(node.getKey(), node.getValue());
+                            last.addPair(node.getKey(), node.getValue());
                             node = last;
                         } else if (node.isList()) {
                             node.addToList(builder.asCharArray());
@@ -90,7 +90,7 @@ public class JSONParser {
                             if (node.isValue()) {
                                 throw new JSONException("expected single value");
                             } else if (last.isObject()) {
-                                last.addObjectPair(node.getKey(), node.getValue());
+                                last.addPair(node.getKey(), node.getValue());
                             } else if (last.isPair()) {
                                 if (last.getBit() != 1) throw new JSONException("no colon in key/value pair");
                                 last.setValue(node);
@@ -141,7 +141,7 @@ public class JSONParser {
                             if (node.getBit() != 1) throw new JSONException("no colon in key/value pair");
                             node.setValue(parsed);
                             JSONEntity last = stack.pop();
-                            last.addObjectPair(node.getKey(), node.getValue());
+                            last.addPair(node.getKey(), node.getValue());
                             node = last;
                         } else if (node.isList()) {
                             node.addToList(parsed);
@@ -164,7 +164,7 @@ public class JSONParser {
                             if (node.getBit() != 1) throw new JSONException("no colon in key/value pair");
                             node.setValue(true);
                             JSONEntity last = stack.pop();
-                            last.addObjectPair(node.getKey(), node.getValue());
+                            last.addPair(node.getKey(), node.getValue());
                             node = last;
                         } else if (node.isList()) {
                             node.addToList(true);
@@ -187,7 +187,7 @@ public class JSONParser {
                             if (node.getBit() != 1) throw new JSONException("no colon in key/value pair");
                             node.setValue(false);
                             JSONEntity last = stack.pop();
-                            last.addObjectPair(node.getKey(), node.getValue());
+                            last.addPair(node.getKey(), node.getValue());
                             node = last;
                         } else if (node.isList()) {
                             node.addToList(false);
@@ -209,7 +209,7 @@ public class JSONParser {
                             if (node.getBit() != 1) throw new JSONException("no colon in key/value pair");
                             node.setValue(null);
                             JSONEntity last = stack.pop();
-                            last.addObjectPair(node.getKey(), node.getValue());
+                            last.addPair(node.getKey(), node.getValue());
                             node = last;
                         } else if (node.isList()) {
                             node.addToList(null);

@@ -115,9 +115,7 @@ public class JSONEntity {
     /** Use {@link JSONEntity#has(String)} instead */
     @Deprecated(since = "1.0.3")
     public boolean hasObjectValue(String key) {
-        if (key == null) throw new NullPointerException("key must not be null");
-        if (map == null) return false;
-        return map.containsKey(key);
+        return has(key);
     }
 
     public boolean has(String key) {
@@ -129,9 +127,7 @@ public class JSONEntity {
     /** Use {@link JSONEntity#get(String)} instead */
     @Deprecated(since = "1.0.3")
     public Object getObjectValue(String key) {
-        if (key == null) throw new NullPointerException("key must not be null");
-        if (map == null) return null;
-        return map.get(key);
+        return get(key);
     }
 
     public Object get(String key) {
@@ -143,10 +139,7 @@ public class JSONEntity {
     /** Use {@link JSONEntity#get(String, Class)} instead */
     @Deprecated(since = "1.0.3")
     public <T> T getObjectValue(String key, Class<T> type) {
-        if (key == null) throw new NullPointerException("key must not be null");
-        if (type == null) throw new NullPointerException("type must not be null");
-        if (map == null) return null;
-        return parseObject(type, map.get(key));
+        return get(key, type);
     }
 
     public <T> T get(String key, Class<T> type) {
@@ -156,13 +149,25 @@ public class JSONEntity {
         return parseObject(type, map.get(key));
     }
 
+    /** Use {@link JSONEntity#resolveOrElse(String, Class, Object)} instead */
+    @Deprecated(since = "1.0.4")
     public <T> T resolveObjectValueOrDefault(String pattern, Class<T> type, T fallback) {
-        T result = resolveObjectValue(pattern, type);
+        return resolveOrElse(pattern, type, fallback);
+    }
+
+    public <T> T resolveOrElse(String pattern, Class<T> type, T fallback) {
+        T result = resolve(pattern, type);
         if (result == null) return fallback;
         return result;
     }
 
+    /** Use {@link JSONEntity#resolve(String, Class)} instead */
+    @Deprecated(since = "1.0.4")
     public <T> T resolveObjectValue(String pattern, Class<T> type) {
+        return resolve(pattern, type);
+    }
+
+    public <T> T resolve(String pattern, Class<T> type) {
         if (pattern == null) throw new NullPointerException("pattern must not be null");
         if (type == null) throw new NullPointerException("type must not be null");
         T result = null;
@@ -170,31 +175,23 @@ public class JSONEntity {
         String[] split = pattern.split(Pattern.quote("."));
         int current = 0;
         while (current != split.length) {
-            if (!root.hasObjectValue(split[current])) {
+            if (!root.has(split[current])) {
                 break;
             }
             if (current == split.length - 1) {
-                result = root.getObjectValue(split[current], type);
+                result = root.get(split[current], type);
             } else {
-                root = root.getObjectValue(split[current], JSONEntity.class);
+                root = root.get(split[current], JSONEntity.class);
             }
             current++;
         }
         return result;
     }
 
-    /** Use {@link JSONEntity#add(String, Object)} instead */
+    /** Use {@link JSONEntity#addPair(String, Object)} instead */
     @Deprecated(since = "1.0.3")
     public void addObjectPair(String key, Object value) {
-        if (key == null) throw new NullPointerException("key must not be null");
-        if (map.containsKey(key)) throw new JSONException("duplicate key");
-        map.put(key, value);
-    }
-
-    public void add(String key, Object value) {
-        if (key == null) throw new NullPointerException("key must not be null");
-        if (map.containsKey(key)) throw new JSONException("duplicate key");
-        map.put(key, value);
+        addPair(key, value);
     }
 
     public JSONEntity addPair(String key, Object value) {
@@ -204,16 +201,22 @@ public class JSONEntity {
         return this;
     }
 
-    /** Use {@link JSONEntity#set(String, Object)} instead */
+    /** Use {@link JSONEntity#setPair(String, Object)} instead */
     @Deprecated(since = "1.0.3")
     public void setObjectPair(String key, Object value) {
-        if (key == null) throw new NullPointerException("key must not be null");
-        map.put(key, value);
+        setPair(key, value);
     }
 
-    public void set(String key, Object value) {
+    public JSONEntity setPair(String key, Object value) {
         if (key == null) throw new NullPointerException("key must not be null");
         map.put(key, value);
+        return this;
+    }
+
+    public JSONEntity removePair(String key) {
+        if (key == null) throw new NullPointerException("key must not be null");
+        map.remove(key);
+        return this;
     }
 
     public Map<String, Object> getPairs() {

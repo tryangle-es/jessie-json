@@ -39,7 +39,7 @@ char[] raw = "{\"token\":{\"password\":\"123456\"}}".toCharArray();
 JSONEntity json = JSONParser.parseJson(raw);
 
 // 2. Easily get the desired field
-char[] password = json.resolveObjectValue("token.password", char[].class);
+char[] password = json.resolve("token.password", char[].class);
 System.out.println(String.valueOf(password));
 Arrays.fill(password, (char) -1);
 

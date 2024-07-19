@@ -22,14 +22,24 @@ public class JSONEntityTest extends TestCase {
     }
 
     /*
+    ➔ When calling the JSONEntity::testResolve() method, then....
+    ➔ Expect the string value to match the expected
+    ➔ Expect no error to be thrown
+     */
+    public void testResolve() {
+        char[] raw = "{\"party\":{\"token\":{\"password\":\"123456\"}}}".toCharArray();
+        JSONEntity json = JSONParser.parseJson(raw);
+        assertEquals("123456", json.resolve("party.token.password", String.class));
+    }
+
+    /*
     ➔ When up-casting int to long, then....
     ➔ Expect the int type to behave as long type
     ➔ Expect no error to be thrown
      */
     public void testUpCastIntToLong() {
-        JSONEntity json = JSONEntity.newObject();
-        json.addObjectPair("age", (int) 18);
-        long value = json.getObjectValue("age", Long.class);
+        JSONEntity json = JSONEntity.newObject().addPair("age", 18);
+        long value = json.get("age", Long.class);
         assertEquals(18L, value);
     }
 
@@ -74,7 +84,7 @@ public class JSONEntityTest extends TestCase {
         Integer one = list.get(0).getValue(Integer.class);
         assertEquals(1, one.intValue());
         // Parse 2nd element
-        String two = list.get(1).getObjectValue("name", String.class);
+        String two = list.get(1).get("name", String.class);
         assertEquals("peter", two);
         // Parse 3rd element
         Boolean three = list.get(2).getValue(Boolean.class);
