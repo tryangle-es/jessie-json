@@ -27,7 +27,7 @@ This library offers a Java implementation of JSON (RFC 8259) with a focus on mem
 <dependency>
     <groupId>tech.tryangle</groupId>
     <artifactId>jessie-json</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
